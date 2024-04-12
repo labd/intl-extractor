@@ -73,7 +73,6 @@ export async function parseSource(filename: string, source: string) {
 			}
 		}
 
-
 		// Check for calls using the translation function variable
 		if (
 			ts.isCallExpression(node) &&
