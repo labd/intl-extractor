@@ -1,0 +1,41 @@
+{
+	"name": "@labd/intl-extractor",
+	"version": "0.0.1",
+	"license": "MIT",
+	"author": "Lab Digital",
+	"type": "module",
+	"bin": {
+		"intl-extractor": "./dist/cli.cjs"
+	},
+	"scripts": {
+		"build": "tsup",
+		"check": "pnpm lint && tsc",
+		"format": "eslint src --fix ; prettier --write .",
+		"lint": "eslint src && prettier --check .",
+		"publish:ci": "pnpm build && pnpm changeset publish",
+		"test": "vitest run",
+		"test:ci": "vitest run --coverage"
+	},
+	"dependencies": {
+		"glob": "^10.3.12",
+		"yargs": "^17.7.2"
+	},
+	"devDependencies": {
+		"@changesets/cli": "^2.27.1",
+		"@types/node": "^20.12.7",
+		"@types/yargs": "^17.0.32",
+		"@typescript-eslint/eslint-plugin": "^7.6.0",
+		"eslint": "^8.57.0",
+		"eslint-plugin-sort-class-members": "^1.20.0",
+		"eslint-plugin-unused-imports": "^3.1.0",
+		"tsup": "^8.0.2",
+		"typescript": "^5.4.5"
+	},
+	"files": [
+		"dist",
+		"src"
+	],
+	"publishConfig": {
+		"access": "public"
+	}
+}
