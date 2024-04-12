@@ -19,11 +19,28 @@ describe("Test parseSource", () => {
 					<h1>{t("title")}</h1>
 				</div>
 			)
+		}
+
+		// Nested scope
+		export function MyOtherComponent = () => {
+			const t = useTranslations("MyComponent");
+
+			const content () => {
+				const foobar = t("foodiebar");
+				return (
+					<div>
+						<h1>{t("title")}</h1>
+					</div>
+				)
+			}
+			return content()
+		}
 		`;
 
 		const result = await parseSource("MyComponent.tsx", source);
 		const expected = {
 			foobar: "foobar",
+			foodiebar: "foodiebar",
 			title: "title",
 		};
 		expect(result).toEqual(expected);

@@ -1,6 +1,12 @@
 import { promises as fsPromises } from "fs";
 import ts from "typescript";
 
+interface Scope {
+	variables: Set<string>;
+	parentScope: Scope | null;
+}
+
+
 export async function findTranslationsUsage(filePath: string) {
 	const fileContent = await fsPromises.readFile(filePath, "utf8");
 	return parseSource(filePath, fileContent);
@@ -19,21 +25,14 @@ export async function parseSource(filename: string, source: string) {
 	// Create a scope dictionary to track variables assigned from useTranslations
 	const scopes: Record<string, Set<string>> = {};
 
-	// Function to create a new scope based on the node's position
-	function createScope(node: ts.Node): Set<string> {
-		const nodeScope = new Set<string>();
-		scopes[node.pos] = nodeScope;
-		return nodeScope;
-	}
-
 	// Visitor function that traverses the AST and logs calls to t()
-	function visit(node: ts.Node, currentScope: Set<string>) {
+	function visit(node: ts.Node, currentScope: Scope) {
 		if (
 			ts.isFunctionDeclaration(node) ||
 			ts.isBlock(node) ||
 			ts.isSourceFile(node)
 		) {
-			currentScope = createScope(node);
+			currentScope = createScope(currentScope);
 		}
 
 		// Check for variable declarations that initialize with useTranslations
@@ -48,7 +47,7 @@ export async function parseSource(filename: string, source: string) {
 				callExpr.expression.text === "useTranslations"
 			) {
 				if (node.name && ts.isIdentifier(node.name)) {
-					currentScope.add(node.name.text);
+					currentScope.variables.add(node.name.text);
 				}
 			}
 		}
@@ -68,7 +67,7 @@ export async function parseSource(filename: string, source: string) {
 				callExpr.expression.text === "getTranslations"
 			) {
 				if (node.name && ts.isIdentifier(node.name)) {
-					currentScope.add(node.name.text);
+					currentScope.variables.add(node.name.text);
 				}
 			}
 		}
@@ -77,7 +76,7 @@ export async function parseSource(filename: string, source: string) {
 		if (
 			ts.isCallExpression(node) &&
 			ts.isIdentifier(node.expression) &&
-			currentScope.has(node.expression.text)
+			findVariableInScopes(node.expression.text, currentScope)
 		) {
 			const item = parseText(node);
 			if (item) {
@@ -91,10 +90,29 @@ export async function parseSource(filename: string, source: string) {
 		ts.forEachChild(node, (child) => visit(child, currentScope));
 	}
 
-	const globalScope = createScope(sourceFile);
+	const globalScope = createScope();
 	visit(sourceFile, globalScope);
 	return result;
 }
+
+function createScope(parentScope: Scope | null = null): Scope {
+	return {
+			variables: new Set<string>(),
+			parentScope
+	};
+}
+
+function findVariableInScopes(variableName: string, scope: Scope | null): boolean {
+	while (scope !== null) {
+			if (scope.variables.has(variableName)) {
+					return true;
+			}
+			scope = scope.parentScope;  // Move to the next higher scope
+	}
+	return false;
+}
+
+
 
 function parseText(node: ts.CallExpression) {
 	const text = node.arguments[0];
