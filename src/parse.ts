@@ -99,7 +99,7 @@ export async function parseSource(filename: string, source: string) {
 function parseText(node: ts.CallExpression) {
 	const text = node.arguments[0];
 	if (ts.isStringLiteral(text)) {
-		return [text.text, ""];
+		return [text.text, text.text];
 	}
 	return null;
 }
