@@ -1,9 +1,7 @@
-import { describe, expect, test } from "vitest"
-import { parseSource } from "./parse"
-
+import { describe, expect, test } from "vitest";
+import { parseSource } from "./parse";
 
 describe("Test parseSource", () => {
-
 	test("should parse source", async () => {
 		const source = `
 		"use client";
@@ -21,13 +19,13 @@ describe("Test parseSource", () => {
 					<h1>{t("title")}</h1>
 				</div>
 			)
-		`
+		`;
 
-		const result = await parseSource("MyComponent.tsx", source)
+		const result = await parseSource("MyComponent.tsx", source);
 		const expected = {
 			foobar: "",
 			title: "",
-		}
-		expect(result).toEqual(expected)
-	})
-})
+		};
+		expect(result).toEqual(expected);
+	});
+});

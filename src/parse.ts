@@ -1,7 +1,6 @@
 import { promises as fsPromises } from "fs";
 import ts from "typescript";
 
-
 export async function findTranslationsUsage(filePath: string) {
 	const fileContent = await fsPromises.readFile(filePath, "utf8");
 	return parseSource(filePath, fileContent);
