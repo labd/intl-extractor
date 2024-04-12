@@ -6,7 +6,6 @@ interface Scope {
 	parentScope: Scope | null;
 }
 
-
 export async function findTranslationsUsage(filePath: string) {
 	const fileContent = await fsPromises.readFile(filePath, "utf8");
 	return parseSource(filePath, fileContent);
@@ -97,22 +96,23 @@ export async function parseSource(filename: string, source: string) {
 
 function createScope(parentScope: Scope | null = null): Scope {
 	return {
-			variables: new Set<string>(),
-			parentScope
+		variables: new Set<string>(),
+		parentScope,
 	};
 }
 
-function findVariableInScopes(variableName: string, scope: Scope | null): boolean {
+function findVariableInScopes(
+	variableName: string,
+	scope: Scope | null
+): boolean {
 	while (scope !== null) {
-			if (scope.variables.has(variableName)) {
-					return true;
-			}
-			scope = scope.parentScope;  // Move to the next higher scope
+		if (scope.variables.has(variableName)) {
+			return true;
+		}
+		scope = scope.parentScope; // Move to the next higher scope
 	}
 	return false;
 }
-
-
 
 function parseText(node: ts.CallExpression) {
 	const text = node.arguments[0];
