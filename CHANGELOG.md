@@ -1,5 +1,11 @@
 # @labd/intl-extractor
 
+## 0.0.2
+
+### Patch Changes
+
+- a850cca: Handle nested scopes better
+
 ## 0.0.1
 
 ### Patch Changes
