@@ -53,6 +53,27 @@ export async function parseSource(filename: string, source: string) {
 			}
 		}
 
+		// Check for variable declarations that initialize with getTranslations
+		if (ts.isVariableDeclaration(node) && node.initializer) {
+			let callExpr = node.initializer;
+
+			// Check if the initializer is an AwaitExpression
+			if (ts.isAwaitExpression(callExpr) && callExpr.expression) {
+				callExpr = callExpr.expression;
+			}
+
+			if (
+				ts.isCallExpression(callExpr) &&
+				ts.isIdentifier(callExpr.expression) &&
+				callExpr.expression.text === "getTranslations"
+			) {
+				if (node.name && ts.isIdentifier(node.name)) {
+					currentScope.add(node.name.text);
+				}
+			}
+		}
+
+
 		// Check for calls using the translation function variable
 		if (
 			ts.isCallExpression(node) &&
