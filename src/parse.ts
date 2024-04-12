@@ -1,15 +1,21 @@
 import { promises as fsPromises } from "fs";
 import ts from "typescript";
 
+
 export async function findTranslationsUsage(filePath: string) {
-	const result: Record<string, any> = {};
 	const fileContent = await fsPromises.readFile(filePath, "utf8");
+	return parseSource(filePath, fileContent);
+}
+
+export async function parseSource(filename: string, source: string) {
 	const sourceFile = ts.createSourceFile(
-		filePath,
-		fileContent,
+		filename,
+		source,
 		ts.ScriptTarget.Latest,
 		true
 	);
+
+	const result: Record<string, any> = {};
 
 	// Create a scope dictionary to track variables assigned from useTranslations
 	const scopes: Record<string, Set<string>> = {};

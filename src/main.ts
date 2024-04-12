@@ -54,7 +54,7 @@ async function writeTranslations(file: string, result: Record<string, any>) {
 		}
 	}
 
-	fsPromises.writeFile(target, JSON.stringify(existingData, null, "\t"));
+	fsPromises.writeFile(target, JSON.stringify(existingData, null, "\t") + "\n");
 }
 
 // Function to generate the output JSON filename based on the input TypeScript filename
