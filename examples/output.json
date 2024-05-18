@@ -1,0 +1,9 @@
+{
+	"Test": {
+		"Test": "Test"
+	},
+	"ProductListing": {
+		"foobar2": "foobar2",
+		"foobar": "Original text that should not be removed."
+	}
+}

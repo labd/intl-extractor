@@ -2,7 +2,7 @@ import { promises as fsPromises } from "fs";
 import ts from "typescript";
 
 interface Scope {
-	variables: Set<string>;
+	variables: Map<string, string>;
 	parentScope: Scope | null;
 }
 
@@ -19,10 +19,11 @@ export async function parseSource(filename: string, source: string) {
 		true
 	);
 
-	const result: Record<string, any> = {};
+	// Since we use the namespace string we also allow nested namespaces out of the box
+	const result: Record<string, Set<string>> = {};
 
 	// Create a scope dictionary to track variables assigned from useTranslations
-	const scopes: Record<string, Set<string>> = {};
+	// const scopes: Record<string, Set<string>> = {};
 
 	// Visitor function that traverses the AST and logs calls to t()
 	function visit(node: ts.Node, currentScope: Scope) {
@@ -46,7 +47,11 @@ export async function parseSource(filename: string, source: string) {
 				callExpr.expression.text === "useTranslations"
 			) {
 				if (node.name && ts.isIdentifier(node.name)) {
-					currentScope.variables.add(node.name.text);
+					currentScope.variables.set(
+						node.name.text,
+						// Remove the surrounding quotes
+						callExpr.arguments[0].getText().slice(1, -1)
+					);
 				}
 			}
 		}
@@ -66,10 +71,30 @@ export async function parseSource(filename: string, source: string) {
 				callExpr.expression.text === "getTranslations"
 			) {
 				if (node.name && ts.isIdentifier(node.name)) {
-					currentScope.variables.add(node.name.text);
+					const arg = callExpr.arguments[0];
+					if (ts.isObjectLiteralExpression(arg)) {
+						// Iterate over the object properties
+						for (const prop of arg.properties) {
+							if (
+								ts.isPropertyAssignment(prop) &&
+								ts.isIdentifier(prop.name) &&
+								prop.name.text === "namespace"
+							) {
+								// Get the namespace value
+								const namespaceValue = prop.initializer;
+								if (ts.isStringLiteral(namespaceValue)) {
+									const namespace = namespaceValue.text;
+									// Do something with the namespace
+									currentScope.variables.set(node.name.text, namespace);
+								}
+							}
+						}
+					}
 				}
 			}
 		}
+
+		// console.log(currentScope.variables);
 
 		// Check for calls using the translation function variable
 		if (
@@ -78,10 +103,18 @@ export async function parseSource(filename: string, source: string) {
 			findVariableInScopes(node.expression.text, currentScope)
 		) {
 			const item = parseText(node);
+
 			if (item) {
-				const [key, value] = item;
-				if (!result[key]) {
-					result[key] = value;
+				// Get caller name for node
+				const namespace = findNamespaceForExpression(
+					node.expression.text,
+					currentScope
+				);
+				if (namespace) {
+					if (!result[namespace]) {
+						result[namespace] = new Set();
+					}
+					result[namespace].add(item[1]);
 				}
 			}
 		}
@@ -91,14 +124,25 @@ export async function parseSource(filename: string, source: string) {
 
 	const globalScope = createScope();
 	visit(sourceFile, globalScope);
+	console.log(result);
 	return result;
 }
 
 function createScope(parentScope: Scope | null = null): Scope {
 	return {
-		variables: new Set<string>(),
+		variables: new Map<string, string>(),
 		parentScope,
 	};
+}
+
+function findNamespaceForExpression(variableName: string, scope: Scope | null) {
+	while (scope !== null) {
+		if (scope.variables.has(variableName)) {
+			return scope.variables.get(variableName);
+		}
+		scope = scope.parentScope;
+	}
+	return null;
 }
 
 function findVariableInScopes(
