@@ -1,8 +1,8 @@
-import { promises as fsPromises } from "fs";
-import * as path from "path";
-import * as glob from "glob";
 import * as fs from "fs";
-import { findTranslationsUsage } from "./parse";
+import { promises as fsPromises } from "fs";
+import * as glob from "glob";
+import * as path from "path";
+import { findTranslationsUsage } from "./parse-new";
 
 // Function to find and process all *.ts files synchronously
 export const processTypescriptFilesSync = async (

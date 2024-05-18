@@ -1,5 +1,5 @@
 import { describe, expect, test } from "vitest";
-import { parseSource } from "./parse";
+import { parseSource } from "./parse-new";
 
 describe("Test parseSource", () => {
 	test("should parse source", async () => {
@@ -46,14 +46,9 @@ describe("Test parseSource", () => {
 		expect(result).toEqual(expected);
 	});
 
-	test("should parse source", async () => {
+	test("should parse source from server component using getTranslations", async () => {
 		const source = `
-		"use client";
-
-		import { useTranslations } from "next-intl";
-
-
-		export const MyComponent = () => {
+		export const MyComponent = async () => {
 			const t = await getTranslations({ namespace: "ProductListing", locale });
 
 			const foobar = t("foobar");
