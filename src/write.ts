@@ -4,6 +4,12 @@ import * as fs from "fs";
 import * as glob from "glob";
 import { findTranslationsUsage } from "./parse-new";
 
+function isWriteCacheObject(
+	obj: string | WriteCacheObject
+): obj is WriteCacheObject {
+	return typeof obj === "object";
+}
+
 export async function writeTranslations(
 	rootPath: string,
 	output: string
@@ -83,15 +89,12 @@ function removeKeysFromObject(data: WriteCacheObject, cache: WriteCacheObject) {
 			continue;
 		}
 
-		if (typeof data[key] === "object") {
-			if (typeof cache[key] !== "object") {
-				// This is not an object in the cache, delete the object
-				delete data[key];
-				continue;
-			} else {
-				// Both are objects, we go deeper
-				removeKeysFromObject(data[key], cache[key]);
-			}
+		if (isWriteCacheObject(data[key]) && isWriteCacheObject(cache[key])) {
+			// Both are objects, we go deeper
+			removeKeysFromObject(
+				data[key] as WriteCacheObject,
+				cache[key] as WriteCacheObject
+			);
 		}
 	}
 }
@@ -103,9 +106,13 @@ function copyKeysToObject(data: WriteCacheObject, cache: WriteCacheObject) {
 			// Key doesn't exist in the data, copy it from the cache
 			data[key] = cache[key];
 		} else {
-			if (typeof data[key] === "object" && typeof cache[key] === "object") {
+			if (isWriteCacheObject(data[key]) && isWriteCacheObject(cache[key])) {
 				// Both are objects, recurse into deeper object
-				copyKeysToObject(data[key], cache[key]);
+				// TODO: Fix predicate so we can remove the type assertion
+				copyKeysToObject(
+					data[key] as WriteCacheObject,
+					cache[key] as WriteCacheObject
+				);
 			}
 		}
 	}
