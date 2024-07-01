@@ -1,6 +1,6 @@
-import * as fs from "fs";
 import * as glob from "glob";
-import { findTranslationsUsage } from "./parse";
+import * as fs from "node:fs";
+import { extractLabelsFromFile } from "./parser";
 
 /**
  * Recursive type for labels which can be nested objects containing strings
@@ -46,7 +46,7 @@ export async function processFiles(
 	);
 
 	for (const file of files) {
-		const data = await findTranslationsUsage(file);
+		const data = await extractLabelsFromFile(file);
 
 		// Update cache if we get results from a file
 		if (Object.keys(data).length > 0) {
@@ -88,7 +88,7 @@ export function updateCache({
 		// or use the namespace with name as a value
 		for (const value of values) {
 			currentCache[value] =
-				getLabelFromExisting([...keys, value], source) || `${key}.${value}`;
+				getLabelFromData(source, [...keys, value]) || `${key}.${value}`;
 		}
 	}
 }
@@ -96,12 +96,12 @@ export function updateCache({
 /**
  * Traverse through label data and find existing label or return undefined
  * @param path Array of keys to traverse through
- * @param source
+ * @param source Label data object to get label from
  * @returns String value if available or undefined if not
  */
-function getLabelFromExisting(
-	path: Array<string>,
-	source: LabelData
+function getLabelFromData(
+	source: LabelData,
+	path: Array<string>
 ): string | undefined {
 	let current: LabelData | string = source;
 	for (const key of path) {
