@@ -1,9 +1,14 @@
 {
-	"Test": {
-		"Test": "Test"
-	},
 	"ProductListing": {
-		"foobar2": "foobar2",
-		"foobar": "Original text that should not be removed."
+		"foobar": "foobar",
+		"title": "title",
+		"Second": {
+			"results": "results"
+		}
+	},
+	"MyComponent": {
+		"foobar": "foobar",
+		"title": "title",
+		"foodiebar": "foodiebar hallo"
 	}
 }
