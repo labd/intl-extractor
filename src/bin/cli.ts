@@ -6,11 +6,11 @@ import { processFiles } from "../main";
 
 async function main() {
 	yargs(hideBin(process.argv))
-		.usage("$0 --directory [path] --output [json file]")
+		.usage("$0 --input [path] --output [json file]")
 		.options({
-			directory: {
+			input: {
 				type: "array",
-				alias: "s",
+				alias: "i",
 				describe: "Source directories to process",
 				demandOption: true, // Require at least one source path
 				coerce: (arg: string | Array<string>) => {
@@ -39,7 +39,7 @@ async function main() {
 				yargs.showHelpOnFail(false);
 			},
 			async (argv) => {
-				await processFiles(argv.source, argv.output);
+				await processFiles(argv.input, argv.output);
 			}
 		)
 		.help()
