@@ -39,8 +39,13 @@ export async function writeTranslations(
 	const files = glob.sync(pattern, options);
 	for (const file of files) {
 		const data = await findTranslationsUsage(file);
-		// This might not be performant as we do existign source look ups for every added file
-		updateCache({ cache, data, source });
+
+		// Update cache if we get results from a file
+		if (Object.keys(data).length > 0) {
+			console.log(`Updating labels for ${file}`);
+			// This might not be performant as we do existign source look ups for every added file
+			updateCache({ cache, data, source });
+		}
 	}
 
 	// Write the new output
