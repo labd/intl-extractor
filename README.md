@@ -7,5 +7,5 @@ This automates away manually setting labels in a `source.json` file.
 ## How to use
 
 ```bash
-npx @labdigital/intl-extractor -d ./path/to/files -o ./path/to/output.json
+npx @labdigital/intl-extractor -i ./path/to/files -o ./path/to/output.json
 ```
