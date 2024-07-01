@@ -6,9 +6,9 @@ import { processFiles } from "../main";
 
 async function main() {
 	yargs(hideBin(process.argv))
-		.usage("$0 --source [path] --output [json file]")
+		.usage("$0 --directory [path] --output [json file]")
 		.options({
-			source: {
+			directory: {
 				type: "array",
 				alias: "s",
 				describe: "Source directories to process",
