@@ -63,7 +63,7 @@ export async function processFiles(
 /**
  * Update existing cache based on given data and source labels
  */
-function updateCache({
+export function updateCache({
 	cache,
 	source,
 	data,
