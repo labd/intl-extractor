@@ -1,6 +1,6 @@
 import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
-import { writeTranslations } from "../write";
+import { processFiles } from "../write";
 
 // Setup yargs to use the command modules from the commands directory
 
@@ -34,7 +34,7 @@ async function main() {
 			() => {},
 			async (argv) => {
 				for (const source of argv.source) {
-					await writeTranslations(source, argv.output);
+					await processFiles(source, argv.output);
 				}
 				// Process the source directories
 			}

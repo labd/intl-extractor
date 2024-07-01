@@ -1,5 +1,5 @@
 import { describe, expect, test } from "vitest";
-import { parseSource } from "./parse-new";
+import { parseSource } from "./parse";
 
 describe("Test parseSource", () => {
 	test("should parse source", async () => {
