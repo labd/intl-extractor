@@ -1,6 +1,6 @@
 import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
-import { processFiles } from "./main";
+import { processFiles } from "../main";
 
 // Setup yargs to use the command modules from the commands directory
 

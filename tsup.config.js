@@ -2,12 +2,12 @@ import { defineConfig } from "tsup";
 
 export default defineConfig([
 	{
-		entry: ["src/cli.ts"],
+		entry: ["src/bin/cli.ts", "src/index.ts"],
 		clean: true,
 		splitting: false,
-		dts: false,
-		sourcemap: false,
-		format: ["cjs"],
+		dts: true,
+		sourcemap: true,
+		format: ["esm"],
 		outDir: "dist",
 		shims: true,
 	},

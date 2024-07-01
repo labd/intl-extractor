@@ -1,11 +1,11 @@
 import { describe, expect, test } from "vitest";
-import { updateCache } from "./main";
+import { updateLabelCache } from "./cache";
 
 describe("cache", () => {
 	test("writes output to empty cache", () => {
 		const cache = {};
 
-		updateCache({
+		updateLabelCache({
 			cache,
 			data: {
 				Test: new Set(["hello"]),
@@ -34,7 +34,7 @@ describe("cache", () => {
 			},
 		};
 
-		updateCache({
+		updateLabelCache({
 			cache,
 			data: {
 				Test: new Set(["test"]),
@@ -58,7 +58,7 @@ describe("cache", () => {
 	test("updates labels with existing source", () => {
 		const cache = {};
 
-		updateCache({
+		updateLabelCache({
 			cache,
 			data: {
 				Test: new Set(["hello"]),

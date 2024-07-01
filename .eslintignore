@@ -1,2 +1,3 @@
 **/*.js
 examples/
+.eslintrc.cjs
