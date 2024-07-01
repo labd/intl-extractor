@@ -16,16 +16,11 @@ type LabelData = {
  *
  */
 export async function processFiles(
-	rootPath: string,
+	directories: Array<string>,
 	output: string
 ): Promise<void> {
 	const cache: LabelData = {};
 	const pattern = "**/*.{ts,tsx}";
-
-	const options = {
-		cwd: rootPath,
-		absolute: true,
-	};
 
 	// The source file with existing labels should be the current output
 	const sourceFile = await fs.promises.readFile(output, "utf8");
@@ -34,9 +29,22 @@ export async function processFiles(
 		console.info("No existing source file found, will build from scratch");
 	}
 
-	const source = JSON.parse(sourceFile) as unknown as LabelData;
+	let source;
+	try {
+		source = JSON.parse(sourceFile) as unknown as LabelData;
+	} catch (err) {
+		console.error(`Error parsing source file: ${output}`);
+		throw err;
+	}
 
-	const files = glob.sync(pattern, options);
+	// Collect list of files based on given directories to check
+	const files = directories.flatMap((path) =>
+		glob.sync(pattern, {
+			cwd: path,
+			absolute: true,
+		})
+	);
+
 	for (const file of files) {
 		const data = await findTranslationsUsage(file);
 
