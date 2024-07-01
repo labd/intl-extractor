@@ -124,7 +124,6 @@ export async function parseSource(filename: string, source: string) {
 
 	const globalScope = createScope();
 	visit(sourceFile, globalScope);
-	console.log(result);
 	return result;
 }
 
