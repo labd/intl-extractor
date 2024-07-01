@@ -13,7 +13,7 @@ async function main() {
 				alias: "s",
 				describe: "Source directories to process",
 				demandOption: true, // Require at least one source path
-				coerce: (arg: string | string[]) => {
+				coerce: (arg: string | Array<string>) => {
 					// Ensure that the input is always an array of strings
 					if (typeof arg === "string") {
 						return [arg];
@@ -27,16 +27,19 @@ async function main() {
 				describe: "Output file",
 				demandOption: true,
 			},
+			exitProcess: {
+				default: "false",
+			},
 		})
 		.command(
 			"$0",
 			"Default command",
-			() => {},
+			(yargs) => {
+				// This makes it hard to show our error message and the stacktrace next to eachother
+				yargs.showHelpOnFail(false);
+			},
 			async (argv) => {
-				for (const source of argv.source) {
-					await processFiles(source, argv.output);
-				}
-				// Process the source directories
+				await processFiles(argv.source, argv.output);
 			}
 		)
 		.help()
