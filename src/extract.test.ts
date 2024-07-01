@@ -1,5 +1,5 @@
 import { describe, expect, test } from "vitest";
-import { extractLabels } from "./parser";
+import { extractLabels } from "./extract";
 
 describe("Test parseSource", () => {
 	test("should parse source", async () => {
