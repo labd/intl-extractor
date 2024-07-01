@@ -6,12 +6,12 @@ interface Scope {
 	parentScope: Scope | null;
 }
 
-export async function findTranslationsUsage(filePath: string) {
+export async function extractLabelsFromFile(filePath: string) {
 	const fileContent = await fsPromises.readFile(filePath, "utf8");
-	return parseSource(filePath, fileContent);
+	return extractLabels(filePath, fileContent);
 }
 
-export async function parseSource(filename: string, source: string) {
+export async function extractLabels(filename: string, source: string) {
 	const sourceFile = ts.createSourceFile(
 		filename,
 		source,

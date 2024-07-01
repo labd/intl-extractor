@@ -1,5 +1,5 @@
 import { describe, expect, test } from "vitest";
-import { updateCache } from "./write";
+import { updateCache } from "./main";
 
 describe("cache", () => {
 	test("writes output to empty cache", () => {

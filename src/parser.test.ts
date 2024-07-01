@@ -1,5 +1,5 @@
 import { describe, expect, test } from "vitest";
-import { parseSource } from "./parse";
+import { extractLabels } from "./parser";
 
 describe("Test parseSource", () => {
 	test("should parse source", async () => {
@@ -37,7 +37,7 @@ describe("Test parseSource", () => {
 		}
 		`;
 
-		const result = await parseSource("MyComponent.tsx", source);
+		const result = await extractLabels("MyComponent.tsx", source);
 		const expected = {
 			MyComponent: new Set(["foobar", "foodiebar", "title"]),
 		};
@@ -63,7 +63,7 @@ describe("Test parseSource", () => {
 			)
 		`;
 
-		const result = await parseSource("MyComponent.tsx", source);
+		const result = await extractLabels("MyComponent.tsx", source);
 
 		const expected = {
 			ProductListing: new Set(["foobar", "title", "results"]),
