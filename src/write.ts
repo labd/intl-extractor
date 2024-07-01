@@ -42,7 +42,7 @@ export async function processFiles(
 
 		// Update cache if we get results from a file
 		if (Object.keys(data).length > 0) {
-			console.log(`Updating labels for ${file}`);
+			console.info(`Updating labels for ${file}`);
 			// This might not be performant as we do existign source look ups for every added file
 			updateCache({ cache, data, source });
 		}
