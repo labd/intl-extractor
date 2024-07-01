@@ -39,9 +39,7 @@ describe("Test parseSource", () => {
 
 		const result = await parseSource("MyComponent.tsx", source);
 		const expected = {
-			foobar: "foobar",
-			foodiebar: "foodiebar",
-			title: "title",
+			MyComponent: new Set(["foobar", "foodiebar", "title"]),
 		};
 		expect(result).toEqual(expected);
 	});
@@ -66,10 +64,9 @@ describe("Test parseSource", () => {
 		`;
 
 		const result = await parseSource("MyComponent.tsx", source);
+
 		const expected = {
-			foobar: "foobar",
-			title: "title",
-			results: "results",
+			ProductListing: new Set(["foobar", "title", "results"]),
 		};
 		expect(result).toEqual(expected);
 	});
