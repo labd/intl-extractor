@@ -22,9 +22,6 @@ export async function parseSource(filename: string, source: string) {
 	// Since we use the namespace string we also allow nested namespaces out of the box
 	const result: Record<string, Set<string>> = {};
 
-	// Create a scope dictionary to track variables assigned from useTranslations
-	// const scopes: Record<string, Set<string>> = {};
-
 	// Visitor function that traverses the AST and logs calls to t()
 	function visit(node: ts.Node, currentScope: Scope) {
 		if (
@@ -93,8 +90,6 @@ export async function parseSource(filename: string, source: string) {
 				}
 			}
 		}
-
-		// console.log(currentScope.variables);
 
 		// Check for calls using the translation function variable
 		if (

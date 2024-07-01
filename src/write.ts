@@ -1,6 +1,6 @@
 import * as fs from "fs";
 import * as glob from "glob";
-import { findTranslationsUsage } from "./parse-new";
+import { findTranslationsUsage } from "./parse";
 
 /**
  * Recursive type for labels which can be nested objects containing strings
@@ -15,7 +15,7 @@ type LabelData = {
  * @param output JSON file to use for output labels
  *
  */
-export async function writeTranslations(
+export async function processFiles(
 	rootPath: string,
 	output: string
 ): Promise<void> {
@@ -64,53 +64,50 @@ function updateCache({
 	source: LabelData;
 	data: Record<string, Set<string>>;
 }) {
-	for (const key of Object.keys(data)) {
+	for (const [key, values] of Object.entries(data)) {
+		// Next-intl uses dot notation for nested objects
 		const keys = key.split(".");
-		const keyMap = [];
 		let currentCache = cache;
+
+		// Set up the namespace in the cache
 		for (let i = 0; i < keys.length; i++) {
 			const currentKey = keys[i];
-			keyMap.push(currentKey);
-			if (i === keys.length - 1) {
-				if (currentCache[currentKey] === undefined) {
-					currentCache[currentKey] = {};
-				}
+			currentCache[currentKey] = currentCache[currentKey] || {};
+			currentCache = currentCache[currentKey] as LabelData;
+		}
 
-				for (const value of data[key]) {
-					// Check the existing source for label or fill with the key
-					(currentCache[currentKey] as LabelData)[value] =
-						getLabelFromExisting([...keyMap, value], source) || value;
-				}
-			} else {
-				if (currentCache[currentKey] === undefined) {
-					currentCache[currentKey] = {};
-				}
-
-				currentCache = currentCache[currentKey] as LabelData;
-			}
+		// Add values for each label, try the existing source first
+		// or use the namespace with name as a value
+		for (const value of values) {
+			currentCache[value] =
+				getLabelFromExisting([...keys, value], source) || `${key}.${value}`;
 		}
 	}
 }
 
 /**
  * Traverse through label data and find existing label or return undefined
- * @param keyMap Array of keys to traverse through
+ * @param path Array of keys to traverse through
  * @param source
- * @returns
+ * @returns String value if available or undefined if not
  */
 function getLabelFromExisting(
-	keyMap: Array<string>,
+	path: Array<string>,
 	source: LabelData
 ): string | undefined {
-	let record: LabelData | string = source;
-	for (const key of keyMap) {
-		if (typeof record === "object" && key in record) {
-			record = record[key];
-		} else {
+	let current: LabelData | string = source;
+	for (const key of path) {
+		if (
+			typeof current !== "object" ||
+			current[key] === undefined ||
+			!(key in current)
+		) {
 			return undefined;
 		}
+
+		current = current[key];
 	}
 
 	// Only return label if it's actually a string
-	return typeof record === "string" ? record : undefined;
+	return typeof current === "string" ? current : undefined;
 }

@@ -1,9 +1,9 @@
 {
 	"ProductListing": {
 		"foobar": "foobar",
-		"title": "title",
+		"title": "title cool",
 		"Second": {
-			"results": "results"
+			"results": "results cool"
 		}
 	},
 	"MyComponent": {
