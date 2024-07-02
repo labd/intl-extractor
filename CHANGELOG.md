@@ -1,5 +1,13 @@
 # @labd/intl-extractor
 
+## 1.1.0
+
+### Minor Changes
+
+- 910977f: Support for translation property accessors
+
+  Adds support for extracting labels from property accessors (e.g. `t.rich()` or `t.html()`).
+
 ## 1.0.0
 
 ### Major Changes
