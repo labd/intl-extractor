@@ -9,7 +9,6 @@ export interface Scope {
 /**
  * Create a new scope
  * @param parentScope the parent scope used in a scope chain
- * @returns
  */
 export function createScope(parentScope?: Scope): Scope {
 	return {
