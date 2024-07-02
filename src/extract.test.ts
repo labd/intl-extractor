@@ -2,7 +2,7 @@ import { describe, expect, test } from "vitest";
 import { extractLabels } from "./extract";
 
 describe("Test parseSource", () => {
-	test("should parse source", async () => {
+	test("should parse source", () => {
 		const source = `
 		"use client";
 
@@ -37,14 +37,14 @@ describe("Test parseSource", () => {
 		}
 		`;
 
-		const result = await extractLabels("MyComponent.tsx", source);
+		const result = extractLabels("MyComponent.tsx", source);
 		const expected = {
 			MyComponent: new Set(["foobar", "foodiebar", "title"]),
 		};
 		expect(result).toEqual(expected);
 	});
 
-	test("should parse source from server component using getTranslations", async () => {
+	test("should parse source from server component using getTranslations", () => {
 		const source = `
 		export const MyComponent = async () => {
 			const t = await getTranslations({ namespace: "ProductListing", locale });
@@ -63,10 +63,32 @@ describe("Test parseSource", () => {
 			)
 		`;
 
-		const result = await extractLabels("MyComponent.tsx", source);
+		const result = extractLabels("MyComponent.tsx", source);
 
 		const expected = {
 			ProductListing: new Set(["foobar", "title", "results"]),
+		};
+		expect(result).toEqual(expected);
+	});
+
+	test("should parse translator object functions", () => {
+		const source = `
+		export const MyComponent = () => {
+			const t = useTranslations("MyComponent");
+
+			const foobar = t.html("foobar");
+
+			return (
+				<div>
+					<h1>{t.rich("title")}</h1>
+				</div>
+			)
+		}
+		`;
+
+		const result = extractLabels("MyComponent.tsx", source);
+		const expected = {
+			MyComponent: new Set(["foobar", "title"]),
 		};
 		expect(result).toEqual(expected);
 	});

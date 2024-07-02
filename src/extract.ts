@@ -11,7 +11,7 @@ export async function extractLabelsFromFile(filePath: string) {
 	return extractLabels(filePath, fileContent);
 }
 
-export async function extractLabels(filename: string, source: string) {
+export function extractLabels(filename: string, source: string) {
 	const sourceFile = ts.createSourceFile(
 		filename,
 		source,
@@ -91,25 +91,38 @@ export async function extractLabels(filename: string, source: string) {
 			}
 		}
 
-		// Check for calls using the translation function variable
-		if (
-			ts.isCallExpression(node) &&
-			ts.isIdentifier(node.expression) &&
-			findVariableInScopes(node.expression.text, currentScope)
-		) {
-			const item = parseText(node);
+		let baseIdentifier: string | undefined;
 
-			if (item) {
-				// Get caller name for node
-				const namespace = findNamespaceForExpression(
-					node.expression.text,
-					currentScope
-				);
-				if (namespace) {
-					if (!result[namespace]) {
-						result[namespace] = new Set();
+		if (ts.isCallExpression(node)) {
+			// The `t()` function also has properties like `t.html()` and `t.rich()`
+			// we need to check for both cases and get variables for the current scope
+			if (ts.isIdentifier(node.expression)) {
+				baseIdentifier = node.expression.text;
+			} else if (ts.isPropertyAccessExpression(node.expression)) {
+				if (ts.isIdentifier(node.expression.expression)) {
+					baseIdentifier = node.expression.expression.text;
+				}
+			}
+
+			// Found an identifier, check if it's a variable in the current scope
+			if (baseIdentifier) {
+				if (findVariableInScopes(baseIdentifier, currentScope)) {
+					// Get the label from the first argument
+					const label = getLabelFromArguments(node);
+
+					if (label) {
+						const namespace = findNamespaceForExpression(
+							baseIdentifier,
+							currentScope
+						);
+
+						if (namespace) {
+							if (!result[namespace]) {
+								result[namespace] = new Set();
+							}
+							result[namespace].add(label);
+						}
 					}
-					result[namespace].add(item[1]);
 				}
 			}
 		}
@@ -152,10 +165,10 @@ function findVariableInScopes(
 	return false;
 }
 
-function parseText(node: ts.CallExpression) {
+function getLabelFromArguments(node: ts.CallExpression) {
 	const text = node.arguments[0];
 	if (ts.isStringLiteral(text)) {
-		return [text.text, text.text];
+		return text.text;
 	}
 	return null;
 }
