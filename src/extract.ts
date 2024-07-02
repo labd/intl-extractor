@@ -1,10 +1,6 @@
 import { promises as fsPromises } from "fs";
 import ts from "typescript";
-
-interface Scope {
-	variables: Map<string, string>;
-	parentScope: Scope | null;
-}
+import { createScope, type Scope } from "./scope";
 
 export async function extractLabelsFromFile(filePath: string) {
 	const fileContent = await fsPromises.readFile(filePath, "utf8");
@@ -135,28 +131,18 @@ export function extractLabels(filename: string, source: string) {
 	return result;
 }
 
-function createScope(parentScope: Scope | null = null): Scope {
-	return {
-		variables: new Map<string, string>(),
-		parentScope,
-	};
-}
-
-function findNamespaceForExpression(variableName: string, scope: Scope | null) {
-	while (scope !== null) {
+function findNamespaceForExpression(variableName: string, scope?: Scope) {
+	while (scope !== undefined) {
 		if (scope.variables.has(variableName)) {
 			return scope.variables.get(variableName);
 		}
 		scope = scope.parentScope;
 	}
-	return null;
+	return;
 }
 
-function findVariableInScopes(
-	variableName: string,
-	scope: Scope | null
-): boolean {
-	while (scope !== null) {
+function findVariableInScopes(variableName: string, scope?: Scope): boolean {
+	while (scope !== undefined) {
 		if (scope.variables.has(variableName)) {
 			return true;
 		}
