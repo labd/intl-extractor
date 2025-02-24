@@ -1,4 +1,4 @@
-import { type LabelData } from "./types";
+import type { LabelData } from "./types";
 
 /**
  * Update existing label cache based on given data and source labels

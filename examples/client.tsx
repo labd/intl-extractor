@@ -20,7 +20,7 @@ export function MyOtherComponent = () => {
 	const t = useTranslations("MyComponent");
 
 	const content () => {
-		const foobar = t("foodiebar");
+		const foobar = t("foodiebar3");
 		return (
 			<div>
 				<h1>{t("title")}</h1>

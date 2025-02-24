@@ -21,9 +21,16 @@
 		"yargs": "^17.7.2"
 	},
 	"peerDependencies": {
+		"@parcel/watcher": "2.5.1",
 		"typescript": ">=5.5"
 	},
+	"peerDependenciesMeta": {
+		"@parcel/watcher": {
+			"optional": true
+		}
+	},
 	"devDependencies": {
+		"@parcel/watcher": "2.5.1",
 		"@changesets/cli": "^2.27.6",
 		"@types/node": "^20.14.9",
 		"@types/yargs": "^17.0.32",
