@@ -9,17 +9,9 @@ async function main() {
 		.usage("$0 --input [path] --output [json file]")
 		.options({
 			input: {
-				type: "array",
+				type: "string",
 				alias: "i",
-				describe: "Source directories to process",
-				demandOption: true, // Require at least one source path
-				coerce: (arg: string | Array<string>) => {
-					// Ensure that the input is always an array of strings
-					if (typeof arg === "string") {
-						return [arg];
-					}
-					return arg;
-				},
+				describe: "Source directory to process",
 			},
 			output: {
 				type: "string",
@@ -42,7 +34,11 @@ async function main() {
 				yargs.showHelpOnFail(false);
 			},
 			async (argv) => {
-				await processFiles(argv.input, argv.output);
+				if (!argv.input) {
+					throw new Error("Input directory is required");
+				}
+
+				await processFiles([argv.input], argv.output);
 
 				if (argv.watch) {
 					console.info("Watching for changes...");
@@ -55,15 +51,20 @@ async function main() {
 					}
 
 					watcher.subscribe(
-						argv.input[0],
+						argv.input,
 						async (err) => {
 							if (err) {
 								throw new Error(err.message);
 							}
 
+							if (!argv.input) {
+								// Appeasing typescript
+								throw new Error("Input directory is required");
+							}
+
 							// Simple implementation: reprocess all files as to avoid complex cache work
 							// No need to run individual events as we're updating everything anyways
-							await processFiles(argv.input, argv.output);
+							await processFiles([argv.input], argv.output);
 						},
 						// Negative glob to still match our pattern for events
 						{ ignore: ["!**/*.{ts,tsx}"] }
