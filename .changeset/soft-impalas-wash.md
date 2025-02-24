@@ -2,6 +2,8 @@
 "@labdigital/intl-extractor": major
 ---
 
+Watch mode and updated workflows
+
 ## Watch mode
 
 This release adds watch mode using `@parcel/watcher` (optional dependency). Use `--watch` or `-w` cli flag to run.
