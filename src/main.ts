@@ -2,7 +2,7 @@ import * as glob from "glob";
 import * as fs from "node:fs";
 import { updateLabelCache } from "./cache";
 import { extractLabelsFromFile } from "./extract";
-import { type LabelData } from "./types";
+import type { LabelData } from "./types";
 
 /**
  * Main function that collects labels, source file and writes it to the output
@@ -51,5 +51,36 @@ export async function processFiles(
 	}
 
 	// Write the new output
-	fs.promises.writeFile(output, JSON.stringify(cache, null, "\t") + "\n");
+	fs.promises.writeFile(output, `${JSON.stringify(cache, null, "\t")}\n`);
+}
+
+const watchCache: LabelData = {};
+
+export async function processFile(file: string, output: string): Promise<void> {
+	const sourceFile = await fs.promises.readFile(output, "utf8");
+
+	if (!sourceFile) {
+		// If someone deletes the source file, we should throw an error as we won't recreate it in this function
+		throw new Error(
+			"No existing source file found during watch, please run the process first"
+		);
+	}
+
+	let source;
+	try {
+		source = JSON.parse(sourceFile) as unknown as LabelData;
+	} catch (err) {
+		console.error(`Error parsing source file: ${output}`);
+		throw err;
+	}
+
+	const data = await extractLabelsFromFile(file);
+
+	if (Object.keys(data).length > 0) {
+		console.info(`Updating labels for ${file}`);
+
+		updateLabelCache({ cache: watchCache, data, source });
+	}
+
+	fs.promises.writeFile(output, `${JSON.stringify(watchCache, null, "\t")}\n`);
 }

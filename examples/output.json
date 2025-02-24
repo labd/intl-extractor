@@ -1,14 +1,14 @@
 {
 	"ProductListing": {
-		"foobar": "foobar",
-		"title": "title cool",
+		"foobar": "ProductListing.foobar",
+		"title": "ProductListing.title",
 		"Second": {
-			"results": "results cool"
+			"results": "ProductListing.Second.results"
 		}
 	},
 	"MyComponent": {
 		"foobar": "foobar mooi geupdate",
 		"title": "title",
-		"foodiebar": "foodiebar hallo"
+		"foodiebar3": "MyComponent.foodiebar3"
 	}
 }

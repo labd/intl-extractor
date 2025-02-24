@@ -27,8 +27,11 @@ async function main() {
 				describe: "Output file",
 				demandOption: true,
 			},
-			exitProcess: {
-				default: "false",
+			watch: {
+				type: "boolean",
+				alias: "w",
+				describe: "Watch for changes and rerun the process",
+				default: false,
 			},
 		})
 		.command(
@@ -40,6 +43,32 @@ async function main() {
 			},
 			async (argv) => {
 				await processFiles(argv.input, argv.output);
+
+				if (argv.watch) {
+					console.info("Watching for changes...");
+					const watcher = await import("@parcel/watcher");
+
+					if (!watcher) {
+						throw new Error(
+							"Watcher not found, please install @parcel/watcher"
+						);
+					}
+
+					watcher.subscribe(
+						argv.input[0],
+						async (err) => {
+							if (err) {
+								throw new Error(err.message);
+							}
+
+							// Simple implementation: reprocess all files as to avoid complex cache work
+							// No need to run individual events as we're updating everything anyways
+							await processFiles(argv.input, argv.output);
+						},
+						// Negative glob to still match our pattern for events
+						{ ignore: ["!**/*.{ts,tsx}"] }
+					);
+				}
 			}
 		)
 		.help()
