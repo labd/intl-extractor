@@ -12,7 +12,7 @@ export function extractLabels(filename: string, source: string) {
 		filename,
 		source,
 		ts.ScriptTarget.Latest,
-		true
+		true,
 	);
 
 	// Since we use the namespace string we also allow nested namespaces out of the box
@@ -43,7 +43,7 @@ export function extractLabels(filename: string, source: string) {
 					currentScope.variables.set(
 						node.name.text,
 						// Remove the surrounding quotes
-						callExpr.arguments[0].getText().slice(1, -1)
+						callExpr.arguments[0].getText().slice(1, -1),
 					);
 				}
 			}
@@ -109,7 +109,7 @@ export function extractLabels(filename: string, source: string) {
 					if (label) {
 						const namespace = findNamespaceForExpression(
 							baseIdentifier,
-							currentScope
+							currentScope,
 						);
 
 						if (namespace) {

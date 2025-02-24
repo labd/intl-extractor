@@ -46,7 +46,7 @@ async function main() {
 
 					if (!watcher) {
 						throw new Error(
-							"Watcher not found, please install @parcel/watcher"
+							"Watcher not found, please install @parcel/watcher",
 						);
 					}
 
@@ -67,10 +67,10 @@ async function main() {
 							await processFiles([argv.input], argv.output);
 						},
 						// Negative glob to still match our pattern for events
-						{ ignore: ["!**/*.{ts,tsx}"] }
+						{ ignore: ["!**/*.{ts,tsx}"] },
 					);
 				}
-			}
+			},
 		)
 		.help()
 		.alias("help", "h")

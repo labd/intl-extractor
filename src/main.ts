@@ -11,7 +11,7 @@ import type { LabelData } from "./types";
  */
 export async function processFiles(
 	input: string,
-	output: string
+	output: string,
 ): Promise<void> {
 	const cache: LabelData = {};
 	const pattern = "**/*.{ts,tsx}";
