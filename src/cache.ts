@@ -40,7 +40,7 @@ export function updateLabelCache({
  */
 function getLabelFromData(
 	source: LabelData,
-	path: Array<string>
+	path: Array<string>,
 ): string | undefined {
 	let current: LabelData | string = source;
 	for (const key of path) {
