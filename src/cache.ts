@@ -27,8 +27,7 @@ export function updateLabelCache({
 		// Add values for each label, try the existing source first
 		// or use the namespace with name as a value
 		for (const value of values) {
-			currentCache[value] =
-				getLabelFromData(source, [...keys, value]) || `${key}.${value}`;
+			currentCache[value] = getLabelFromData(source, [...keys, value]) || value;
 		}
 	}
 }
