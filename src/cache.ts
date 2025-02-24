@@ -25,7 +25,7 @@ export function updateLabelCache({
 		}
 
 		// Add values for each label, try the existing source first
-		// or use the namespace with name as a value
+		// or use the name as a value if it's not found in the source
 		for (const value of values) {
 			currentCache[value] = getLabelFromData(source, [...keys, value]) || value;
 		}
