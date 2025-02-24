@@ -38,7 +38,7 @@ async function main() {
 					throw new Error("Input directory is required");
 				}
 
-				await processFiles([argv.input], argv.output);
+				await processFiles(argv.input, argv.output);
 
 				if (argv.watch) {
 					console.info("Watching for changes...");
@@ -64,7 +64,7 @@ async function main() {
 
 							// Simple implementation: reprocess all files as to avoid complex cache work
 							// No need to run individual events as we're updating everything anyways
-							await processFiles([argv.input], argv.output);
+							await processFiles(argv.input, argv.output);
 						},
 						// Negative glob to still match our pattern for events
 						{ ignore: ["!**/*.{ts,tsx}"] },
