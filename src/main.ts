@@ -10,7 +10,7 @@ import type { LabelData } from "./types";
  * @param output JSON file to use for output labels
  */
 export async function processFiles(
-	directories: Array<string>,
+	input: string,
 	output: string
 ): Promise<void> {
 	const cache: LabelData = {};
@@ -31,13 +31,11 @@ export async function processFiles(
 		throw err;
 	}
 
-	// Collect list of files based on given directories to check
-	const files = directories.flatMap((path) =>
-		glob.sync(pattern, {
-			cwd: path,
-			absolute: true,
-		})
-	);
+	// Collect list of files based on given directory to check
+	const files = glob.sync(pattern, {
+		cwd: input,
+		absolute: true,
+	});
 
 	for (const file of files) {
 		const data = await extractLabelsFromFile(file);
