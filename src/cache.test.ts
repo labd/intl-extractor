@@ -16,9 +16,9 @@ describe("cache", () => {
 
 		expect(cache).toEqual({
 			Test: {
-				hello: "Test.hello",
+				hello: "hello",
 				NestedNamespace: {
-					foobar: "Test.NestedNamespace.foobar",
+					foobar: "foobar",
 				},
 			},
 		});
@@ -46,10 +46,10 @@ describe("cache", () => {
 		expect(cache).toEqual({
 			Test: {
 				hello: "Test.hello",
-				test: "Test.test",
+				test: "test",
 				NestedNamespace: {
 					foobar: "Test.NestedNamespace.foobar",
-					test: "Test.NestedNamespace.test",
+					test: "test",
 				},
 			},
 		});
@@ -75,7 +75,7 @@ describe("cache", () => {
 			Test: {
 				hello: "Hello",
 				NestedNamespace: {
-					foobar: "Test.NestedNamespace.foobar",
+					foobar: "foobar",
 				},
 			},
 		});
