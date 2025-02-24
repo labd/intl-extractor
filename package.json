@@ -13,6 +13,7 @@
 		"format": "eslint src --fix ; prettier --write .",
 		"lint": "eslint src && prettier --check .",
 		"publish:ci": "pnpm build && pnpm changeset publish",
+		"publish:version": "pnpm changeset version && pnpm format",
 		"test": "vitest run",
 		"test:ci": "vitest run --coverage"
 	},
