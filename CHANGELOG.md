@@ -1,5 +1,12 @@
 # @labd/intl-extractor
 
+## 2.0.1
+
+### Patch Changes
+
+- 7a0b827: Handle literals for `getTranslations()` call
+- b101935: update dependencies
+
 ## 2.0.0
 
 ### Major Changes
