@@ -65,6 +65,8 @@ export function extractLabels(filename: string, source: string) {
 			) {
 				if (node.name && ts.isIdentifier(node.name)) {
 					const arg = callExpr.arguments[0];
+
+					// If the argument is an object, parse the object
 					if (ts.isObjectLiteralExpression(arg)) {
 						// Iterate over the object properties
 						for (const prop of arg.properties) {
@@ -82,6 +84,12 @@ export function extractLabels(filename: string, source: string) {
 								}
 							}
 						}
+					} else {
+						currentScope.variables.set(
+							node.name.text,
+							// Remove the surrounding quotes
+							callExpr.arguments[0].getText().slice(1, -1),
+						);
 					}
 				}
 			}
