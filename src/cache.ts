@@ -24,10 +24,28 @@ export function updateLabelCache({
 			currentCache = currentCache[currentKey] as LabelData;
 		}
 
-		// Add values for each label, try the existing source first
-		// or use the name as a value if it's not found in the source
+		// The individual keys can be nested, so we need to traverse through them and expand the cache
 		for (const value of values) {
-			currentCache[value] = getLabelFromData(source, [...keys, value]) || value;
+			const valueKey = value.split(".");
+			let currentNestedCache = currentCache;
+
+			if (valueKey.length > 1) {
+				// For nested keys, create the object structure but stop before the last key
+				for (let i = 0; i < valueKey.length - 1; i++) {
+					const key = valueKey[i];
+					currentNestedCache[key] = currentNestedCache[key] || {};
+					currentNestedCache = currentNestedCache[key] as LabelData;
+				}
+
+				// The last key should be a string value, not an object
+				const lastKey = valueKey[valueKey.length - 1];
+				currentNestedCache[lastKey] =
+					getLabelFromData(source, [...keys, value]) || lastKey;
+			} else {
+				// For non-nested keys, simply add the value
+				currentNestedCache[value] =
+					getLabelFromData(source, [...keys, value]) || value;
+			}
 		}
 	}
 }

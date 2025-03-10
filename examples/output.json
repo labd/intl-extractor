@@ -9,6 +9,11 @@
 	"MyComponent": {
 		"foobar": "foobar mooi geupdate",
 		"title": "title",
-		"foodiebar3": "MyComponent.foodiebar3"
+		"foodiebar3": "MyComponent.foodiebar3",
+		"Test": {
+			"foobar": {
+				"test": "test"
+			}
+		}
 	}
 }
