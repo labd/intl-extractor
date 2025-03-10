@@ -1,5 +1,11 @@
 # @labd/intl-extractor
 
+## 2.1.0
+
+### Minor Changes
+
+- 585f8c9: Support nested translation function keys
+
 ## 2.0.1
 
 ### Patch Changes
