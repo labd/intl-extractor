@@ -1,0 +1,40 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`CLI output snapshot tests > should extract labels from example files and match snapshot 1`] = `
+{
+  "MyComponent": {
+    "Test": {
+      "foobar": {
+        "test": "test",
+      },
+    },
+    "foobar": "foobar",
+    "foodiebar3": "foodiebar3",
+    "title": "title",
+  },
+  "ProductListing": {
+    "Second": {
+      "results": "results",
+    },
+    "foobar": "foobar",
+    "title": "title",
+  },
+}
+`;
+
+exports[`CLI output snapshot tests > should handle nested namespaces correctly 1`] = `
+{
+  "UI": {
+    "Buttons": {
+      "cancel": "cancel",
+      "save": "save",
+    },
+    "Forms": {
+      "form": {
+        "name": "name",
+        "submit": "submit",
+      },
+    },
+  },
+}
+`;
