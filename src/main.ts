@@ -1,5 +1,5 @@
-import * as glob from "glob";
 import * as fs from "node:fs";
+import * as glob from "glob";
 import { updateLabelCache } from "./cache";
 import { extractLabelsFromFile } from "./extract";
 import type { LabelData } from "./types";
@@ -23,7 +23,7 @@ export async function processFiles(
 		console.info("No existing source file found, will build from scratch");
 	}
 
-	let source;
+	let source: LabelData;
 	try {
 		source = JSON.parse(sourceFile) as unknown as LabelData;
 	} catch (err) {

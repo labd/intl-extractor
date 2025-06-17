@@ -1,4 +1,4 @@
-import { promises as fsPromises } from "fs";
+import { promises as fsPromises } from "node:fs";
 import ts from "typescript";
 import { createScope, type Scope } from "./scope";
 
@@ -43,7 +43,9 @@ export function extractLabels(filename: string, source: string) {
 					currentScope.variables.set(
 						node.name.text,
 						// Remove the surrounding quotes
-						callExpr.arguments[0].getText().slice(1, -1),
+						callExpr.arguments[0]
+							.getText()
+							.slice(1, -1),
 					);
 				}
 			}
@@ -88,7 +90,9 @@ export function extractLabels(filename: string, source: string) {
 						currentScope.variables.set(
 							node.name.text,
 							// Remove the surrounding quotes
-							callExpr.arguments[0].getText().slice(1, -1),
+							callExpr.arguments[0]
+								.getText()
+								.slice(1, -1),
 						);
 					}
 				}

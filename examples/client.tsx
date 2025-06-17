@@ -2,7 +2,6 @@
 
 import { useTranslations } from "next-intl";
 
-
 export const MyComponent = () => {
 	const t = useTranslations("MyComponent");
 	const t2 = useTranslations("MyComponent.Test");
@@ -11,22 +10,24 @@ export const MyComponent = () => {
 
 	return (
 		<div>
-			<h1>{t("title")}, {t2("foobar.test")}</h1>
+			<h1>
+				{t("title")}, {t2("foobar.test")}
+			</h1>
 		</div>
-	)
-}
+	);
+};
 
 // Nested scope
-export function MyOtherComponent = () => {
+export function MyOtherComponent() {
 	const t = useTranslations("MyComponent");
 
-	const content () => {
+	const content = () => {
 		const foobar = t("foodiebar3");
 		return (
 			<div>
 				<h1>{t("title")}</h1>
 			</div>
-		)
-	}
-	return content()
+		);
+	};
+	return content();
 }
