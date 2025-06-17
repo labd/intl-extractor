@@ -1,5 +1,15 @@
 # @labd/intl-extractor
 
+## 2.1.0
+
+### Minor Changes
+
+- 585f8c9: Support nested translation function keys
+
+### Patch Changes
+
+- f8148ae: Sort the output before writing to make it deterministic
+
 ## 2.0.1
 
 ### Patch Changes
