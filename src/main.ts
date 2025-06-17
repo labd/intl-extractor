@@ -49,5 +49,22 @@ export async function processFiles(
 	}
 
 	// Write the new output
-	fs.promises.writeFile(output, `${JSON.stringify(cache, null, "\t")}\n`);
+	const sorted = deepSortObject(cache);
+	fs.promises.writeFile(output, `${JSON.stringify(sorted, null, "\t")}\n`);
+}
+
+/**
+ * Recursively sorts the keys of an object.
+ */
+function deepSortObject<T>(obj: T): T {
+	if (Array.isArray(obj)) {
+		return obj.map(deepSortObject) as unknown as T;
+	} else if (obj && typeof obj === "object" && obj.constructor === Object) {
+		const sorted: Record<string, unknown> = {};
+		for (const key of Object.keys(obj).sort()) {
+			sorted[key] = deepSortObject((obj as Record<string, unknown>)[key]);
+		}
+		return sorted as T;
+	}
+	return obj;
 }
