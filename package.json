@@ -1,13 +1,13 @@
 {
 	"name": "@labdigital/intl-extractor",
-	"version": "2.1.0",
+	"version": "2.1.1",
 	"license": "MIT",
 	"author": "Lab Digital",
 	"type": "module",
 	"bin": {
 		"intl-extractor": "./dist/bin/cli.js"
 	},
-	"packageManager": "pnpm@10.4.1",
+	"packageManager": "pnpm@10.24.0",
 	"scripts": {
 		"build": "tsdown",
 		"check": "pnpm lint && tsc",
@@ -20,7 +20,7 @@
 	},
 	"dependencies": {
 		"@biomejs/biome": "^2.0.0",
-		"glob": "11.0.3",
+		"glob": "11.1.0",
 		"yargs": "^18.0.0"
 	},
 	"peerDependencies": {
@@ -47,6 +47,7 @@
 		"src"
 	],
 	"publishConfig": {
-		"access": "public"
+		"access": "public",
+		"provenance": true
 	}
 }
