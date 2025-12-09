@@ -1,5 +1,11 @@
 # @labd/intl-extractor
 
+## 2.2.0
+
+### Minor Changes
+
+- f4a755a: add trusted packages provenance and minimum age of updated to 20160, update pnpm 10.4.1 -> 10.24.0
+
 ## 2.1.0
 
 ### Minor Changes
