@@ -49,5 +49,13 @@
 	"publishConfig": {
 		"access": "public",
 		"provenance": true
-	}
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/labd/intl-extractor.git"
+	},
+	"bugs": {
+		"url": "https://github.com/labd/intl-extractor/issues"
+	},
+	"homepage": "https://github.com/labd/intl-extractor#readme"
 }
