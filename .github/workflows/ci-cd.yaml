@@ -26,7 +26,7 @@ jobs:
         uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
 
       - name: Set up Node.js
-        uses: labd/gh-actions-typescript/pnpm-install@main # zizmor: ignore[unpinned-uses]
+        uses: labd/gh-actions-typescript/pnpm-install@83f1d08c6553972e1222006d2dc97d203596eeeb # main
         with:
           node-version: ${{ matrix.node }}
 
@@ -56,7 +56,7 @@ jobs:
           fetch-depth: 0
 
       - name: Set up Node.js
-        uses: labd/gh-actions-typescript/pnpm-install@main # zizmor: ignore[unpinned-uses]
+        uses: labd/gh-actions-typescript/pnpm-install@83f1d08c6553972e1222006d2dc97d203596eeeb # main
 
       - name: Run build
         run: pnpm build
