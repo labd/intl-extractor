@@ -1,4 +1,0 @@
-version: 3
-ignore_actions:
-  - name: labd/gh-actions-typescript/pnpm-install
-    ref: main
