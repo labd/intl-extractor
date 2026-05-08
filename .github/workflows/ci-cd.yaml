@@ -23,10 +23,10 @@ jobs:
       CI: true
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
 
       - name: Set up Node.js
-        uses: labd/gh-actions-typescript/pnpm-install@main
+        uses: labd/gh-actions-typescript/pnpm-install@83f1d08c6553972e1222006d2dc97d203596eeeb # main
         with:
           node-version: ${{ matrix.node }}
 
@@ -51,12 +51,12 @@ jobs:
     needs: validate
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
         with:
           fetch-depth: 0
 
       - name: Set up Node.js
-        uses: labd/gh-actions-typescript/pnpm-install@main
+        uses: labd/gh-actions-typescript/pnpm-install@83f1d08c6553972e1222006d2dc97d203596eeeb # main
 
       - name: Run build
         run: pnpm build
@@ -65,7 +65,7 @@ jobs:
         run: npm i -g npm@^11.6.4
 
       - name: Create and publish versions
-        uses: changesets/action@v1
+        uses: changesets/action@6a0a831ff30acef54f2c6aa1cbbc1096b066edaf # v1.7.0
         with:
           title: "Release new version"
           commit: "update version"
