@@ -65,6 +65,43 @@ describe("Test parseSource", () => {
 		};
 		expect(result).toEqual(expected);
 	});
+
+	test("should ignore translator functions from useTranslations and getTranslations without namespace", () => {
+		const source = `
+		export const MyComponent = () => {
+			const t = useTranslations();
+
+			const foobar = t.html("foobar");
+
+			return (
+				<div>
+					<h1>{t.rich("title")}</h1>
+				</div>
+			)
+		}
+
+		// Server component
+		export const MyServerComponent = async () => {
+			const t = await getTranslations();
+
+			const foobar = t("foobar");
+
+			return (
+				<div>
+					<h1>{t("title")}</h1>
+					<div>
+						{t("results", {
+							total: products.total,
+						})}
+					</div>
+				</div>
+			)
+		`;
+
+		const result = extractLabels("MyComponent.tsx", source);
+		const expected = {};
+		expect(result).toEqual(expected);
+	});
 });
 
 describe("getTranslator usage", () => {

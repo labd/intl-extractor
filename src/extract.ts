@@ -39,7 +39,11 @@ export function extractLabels(filename: string, source: string) {
 				ts.isIdentifier(callExpr.expression) &&
 				callExpr.expression.text === "useTranslations"
 			) {
-				if (node.name && ts.isIdentifier(node.name)) {
+				if (
+					node.name &&
+					ts.isIdentifier(node.name) &&
+					callExpr.arguments.at(0)
+				) {
 					currentScope.variables.set(
 						node.name.text,
 						// Remove the surrounding quotes
@@ -63,7 +67,8 @@ export function extractLabels(filename: string, source: string) {
 			if (
 				ts.isCallExpression(callExpr) &&
 				ts.isIdentifier(callExpr.expression) &&
-				callExpr.expression.text === "getTranslations"
+				callExpr.expression.text === "getTranslations" &&
+				callExpr.arguments.at(0)
 			) {
 				if (node.name && ts.isIdentifier(node.name)) {
 					const arg = callExpr.arguments[0];
