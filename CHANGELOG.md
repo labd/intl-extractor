@@ -1,5 +1,15 @@
 # @labd/intl-extractor
 
+## 2.3.0
+
+### Minor Changes
+
+- 21043fb: Allow useTransltions and getTranslations usage without passing a namespace
+
+### Patch Changes
+
+- 7543efa: Bump Vitest to mitigate CVE-2026-47429
+
 ## 2.2.0
 
 ### Minor Changes
