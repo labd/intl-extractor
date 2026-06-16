@@ -65,6 +65,28 @@ describe("Test parseSource", () => {
 		};
 		expect(result).toEqual(expected);
 	});
+
+	test("should not throw when useTranslations is called without a namespace", () => {
+		const source = `
+			export const MyComponent = () => {
+				const t = useTranslations();
+
+				return <h1>{t('title')}</h1>;
+			}
+		`;
+		expect(() => extractLabels("MyComponent.tsx", source)).not.toThrow();
+	});
+
+	test("should not throw when getTranslations is called without a namespace", () => {
+		const source = `
+			export const MyComponent = async () => {
+				const t = await getTranslations();
+
+				return <h1>{t('title')}</h1>;
+			}
+		`;
+		expect(() => extractLabels("MyComponent.tsx", source)).not.toThrow();
+	});
 });
 
 describe("getTranslator usage", () => {

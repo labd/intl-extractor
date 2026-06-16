@@ -40,12 +40,12 @@ export function extractLabels(filename: string, source: string) {
 				callExpr.expression.text === "useTranslations"
 			) {
 				if (node.name && ts.isIdentifier(node.name)) {
+					const namespaceArg = callExpr.arguments.at(0);
 					currentScope.variables.set(
 						node.name.text,
-						// Remove the surrounding quotes
-						callExpr.arguments[0]
-							.getText()
-							.slice(1, -1),
+						// Remove the surrounding quotes. When called without
+						// a namespace (e.g. userTranslations()), default to the root scope.
+						namespaceArg ? namespaceArg.getText().slice(1, -1) : "",
 					);
 				}
 			}
@@ -66,10 +66,13 @@ export function extractLabels(filename: string, source: string) {
 				callExpr.expression.text === "getTranslations"
 			) {
 				if (node.name && ts.isIdentifier(node.name)) {
-					const arg = callExpr.arguments[0];
+					const arg = callExpr.arguments.at(0);
 
-					// If the argument is an object, parse the object
-					if (ts.isObjectLiteralExpression(arg)) {
+					// Called without an argument (e.g. getTranslations()) -> root scope
+					if (!arg) {
+						currentScope.variables.set(node.name.text, "");
+					} else if (ts.isObjectLiteralExpression(arg)) {
+						// If the argument is an object, parse the object
 						// Iterate over the object properties
 						for (const prop of arg.properties) {
 							if (
@@ -90,7 +93,7 @@ export function extractLabels(filename: string, source: string) {
 						currentScope.variables.set(
 							node.name.text,
 							// Remove the surrounding quotes
-							callExpr.arguments[0]
+							arg
 								.getText()
 								.slice(1, -1),
 						);
