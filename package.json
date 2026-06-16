@@ -37,7 +37,7 @@
 		"@parcel/watcher": "2.5.1",
 		"@types/node": "24.0.3",
 		"@types/yargs": "17.0.33",
-		"@vitest/coverage-v8": "3.2.4",
+		"@vitest/coverage-v8": "3.2.6",
 		"tsdown": "^0.12.8",
 		"typescript": "5.8.3",
 		"vitest": "3.2.6"
