@@ -1,5 +1,11 @@
 # @labd/intl-extractor
 
+## 2.4.0
+
+### Minor Changes
+
+- 310a1ec: Use the `@typescript/typescript6` compatibility package for AST parsing instead of the consumer's `typescript` peer dependency. TypeScript 7.0 ships without the classic JavaScript API (`ts.createSourceFile`, `ts.ScriptTarget`, the `is*` node guards), so extraction broke when consumers upgraded. Bundling the stable TS 6.0 API decouples the extractor from the consumer's compiler version and drops the `typescript` peer dependency.
+
 ## 2.3.0
 
 ### Minor Changes
