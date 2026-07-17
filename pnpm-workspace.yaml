@@ -1,4 +1,6 @@
 minimumReleaseAge: 20160
+minimumReleaseAgeExclude:
+  - "@typescript/typescript6"
 trustPolicy: no-downgrade
 onlyBuiltDependencies:
   - '@biomejs/biome'
