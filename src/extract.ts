@@ -1,5 +1,5 @@
 import { promises as fsPromises } from "node:fs";
-import ts from "typescript";
+import ts from "@typescript/typescript6";
 import { createScope, type Scope } from "./scope";
 
 export async function extractLabelsFromFile(filePath: string) {

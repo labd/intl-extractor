@@ -20,12 +20,12 @@
 	},
 	"dependencies": {
 		"@biomejs/biome": "^2.0.0",
+		"@typescript/typescript6": "6.0.2",
 		"glob": "11.1.0",
 		"yargs": "^18.0.0"
 	},
 	"peerDependencies": {
-		"@parcel/watcher": "2.5.1",
-		"typescript": ">=5.5"
+		"@parcel/watcher": "2.5.1"
 	},
 	"peerDependenciesMeta": {
 		"@parcel/watcher": {
