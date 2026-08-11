@@ -10,6 +10,22 @@ This automates away manually setting labels in a `source.json` file.
 npx @labdigital/intl-extractor -i ./path/to/files -o ./path/to/output.json
 ```
 
+## Programmatic use
+
+```ts
+import { buildLabels } from "@labdigital/intl-extractor";
+
+const labels = await buildLabels({
+  input: "./src",
+  source: existingLabels,                    // values to keep
+  fallback: (path) => `[${path.at(-1)}]`,    // value for a label with no entry yet
+});
+```
+
+`buildLabels` returns the tree and writes nothing, so you can merge it with labels from
+elsewhere before deciding what the output file should be. `processFiles` is the
+read-merge-write wrapper the CLI uses.
+
 ## How it works
 
 Scans input files for `useTranslations` or `getTranslations` usage using the TypeScript SDK. It will then merge them all together and check the source JSON file for label values.

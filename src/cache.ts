@@ -1,16 +1,28 @@
 import type { LabelData } from "./types";
 
 /**
+ * Produces the value for a label that has no entry in the source yet. Receives
+ * the full key path (namespace segments followed by label segments), so a caller
+ * can mark the value as untranslated however it likes — e.g. `[label]`.
+ */
+export type LabelFallback = (path: Array<string>) => string;
+
+/** Default: the last path segment, i.e. the label's own name. */
+const defaultFallback: LabelFallback = (path) => path[path.length - 1] ?? "";
+
+/**
  * Update existing label cache based on given data and source labels
  */
 export function updateLabelCache({
 	cache,
 	source,
 	data,
+	fallback = defaultFallback,
 }: {
 	cache: LabelData;
 	source: LabelData;
 	data: Record<string, Set<string>>;
+	fallback?: LabelFallback;
 }) {
 	for (const [key, values] of Object.entries(data)) {
 		// Next-intl uses dot notation for nested objects
@@ -40,11 +52,13 @@ export function updateLabelCache({
 				// The last key should be a string value, not an object
 				const lastKey = valueKey[valueKey.length - 1];
 				currentNestedCache[lastKey] =
-					getLabelFromData(source, [...keys, value]) || lastKey;
+					getLabelFromData(source, [...keys, value]) ||
+					fallback([...keys, ...valueKey]);
 			} else {
 				// For non-nested keys, simply add the value
 				currentNestedCache[value] =
-					getLabelFromData(source, [...keys, value]) || value;
+					getLabelFromData(source, [...keys, value]) ||
+					fallback([...keys, value]);
 			}
 		}
 	}

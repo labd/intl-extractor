@@ -4,6 +4,14 @@
 	"license": "MIT",
 	"author": "Lab Digital",
 	"type": "module",
+	"exports": {
+		".": {
+			"types": "./dist/index.d.ts",
+			"import": "./dist/index.js",
+			"default": "./dist/index.js"
+		},
+		"./package.json": "./package.json"
+	},
 	"bin": {
 		"intl-extractor": "./dist/bin/cli.js"
 	},
