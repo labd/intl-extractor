@@ -9,6 +9,6 @@ export default defineConfig([
 		sourcemap: true,
 		format: ["esm"],
 		outDir: "dist",
-		shims: true,
+		shims: true, fixedExtension: false,
 	},
 ]);
