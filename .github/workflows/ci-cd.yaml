@@ -16,7 +16,7 @@ jobs:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main' || github.event_name == 'pull_request'
     strategy:
       matrix:
-        node: [ "22.x", "24.x" ]
+        node: [ "22.x", "24.x", "26.x" ]
         os: [ ubuntu-latest ]
     runs-on: ${{ matrix.os }}
     env:
