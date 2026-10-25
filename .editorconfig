@@ -1,7 +1,7 @@
 root = true
 
 # Set up tabs as indent style for a11y reasons
-# This will be the default for prettier in >=v3
+# This matches the biome formatter default
 [*.{js,jsx,ts,tsx,json}]
 indent_style = tab
 indent_size = 2
