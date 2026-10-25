@@ -15,7 +15,7 @@
 	"bin": {
 		"intl-extractor": "./dist/bin/cli.js"
 	},
-	"packageManager": "pnpm@10.24.0",
+	"packageManager": "pnpm@12.12.0",
 	"engines": {
 		"node": ">=22"
 	},

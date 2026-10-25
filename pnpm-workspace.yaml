@@ -2,10 +2,11 @@ minimumReleaseAge: 20160
 minimumReleaseAgeExclude:
   - "@typescript/typescript6"
 trustPolicy: no-downgrade
-onlyBuiltDependencies:
-  - '@biomejs/biome'
-  - esbuild
-  - msw
-  - rolldown
+allowBuilds:
+  '@biomejs/biome': true
+  '@parcel/watcher': false
+  esbuild: true
+  msw: true
+  rolldown: true
 overrides:
   esbuild@>=0.27.3 <0.28.1: ^0.28.1
