@@ -1,5 +1,16 @@
 # @labd/intl-extractor
 
+## 2.6.0
+
+### Minor Changes
+
+- e2de2a3: Resolve security advisories by updating dependencies (glob 13, vitest 4, tsdown 0.23, @changesets/cli 3). Breaking: Node.js 20 is no longer supported; the minimum required version is now Node.js 22.
+
+### Patch Changes
+
+- 90e8607: Add a `#!/usr/bin/env node` shebang to the `intl-extractor` CLI so the published binary is executable
+- 32bd916: Update dependencies, move `@biomejs/biome` to devDependencies (it is not used at runtime) and accept any `@parcel/watcher` 2.x (>= 2.5.1) as peer dependency.
+
 ## 2.5.0
 
 ### Minor Changes
