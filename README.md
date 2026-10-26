@@ -1,5 +1,7 @@
 # intl-extractor
 
+[![npm](https://img.shields.io/npm/v/@labdigital/intl-extractor)](https://www.npmjs.com/package/@labdigital/intl-extractor)
+
 Extracts `next-intl` labels from TypeScript files and merges them to a given output json file.
 
 This automates away manually setting labels in a `source.json` file.
