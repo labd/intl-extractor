@@ -24,7 +24,6 @@
 		"check": "pnpm lint && tsc",
 		"format": "pnpm biome format --write",
 		"lint": "pnpm biome check",
-		"lint:package": "publint --strict",
 		"publish:ci": "pnpm build && pnpm changeset publish",
 		"publish:version": "pnpm changeset version && pnpm format",
 		"test": "vitest run",
