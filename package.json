@@ -15,7 +15,7 @@
 	"bin": {
 		"intl-extractor": "./dist/bin/cli.js"
 	},
-	"packageManager": "pnpm@12.12.0",
+	"packageManager": "pnpm@12.12.1",
 	"engines": {
 		"node": ">=22"
 	},
@@ -30,13 +30,12 @@
 		"test:ci": "vitest run --coverage"
 	},
 	"dependencies": {
-		"@biomejs/biome": "^2.0.0",
 		"@typescript/typescript6": "6.0.2",
 		"glob": "13.0.6",
-		"yargs": "^18.0.0"
+		"yargs": "^18.2.0"
 	},
 	"peerDependencies": {
-		"@parcel/watcher": "2.5.1"
+		"@parcel/watcher": "^2.5.1"
 	},
 	"peerDependenciesMeta": {
 		"@parcel/watcher": {
@@ -44,15 +43,16 @@
 		}
 	},
 	"devDependencies": {
+		"@biomejs/biome": "2.5.15",
 		"@changesets/cli": "3.0.3",
-		"@parcel/watcher": "2.5.1",
-		"@types/node": "24.0.3",
-		"@types/yargs": "17.0.33",
-		"@vitest/coverage-v8": "4.1.11",
+		"@parcel/watcher": "2.6.0",
+		"@types/node": "26.6.5",
+		"@types/yargs": "17.0.35",
+		"@vitest/coverage-v8": "5.0.3",
 		"tsdown": "^0.23.1",
-		"typescript": "5.8.3",
-		"vite": "7.3.7",
-		"vitest": "4.1.11"
+		"typescript": "7.0.2",
+		"vite": "8.3.4",
+		"vitest": "5.0.3"
 	},
 	"files": [
 		"dist",
