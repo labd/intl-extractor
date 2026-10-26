@@ -93,9 +93,7 @@ export function extractLabels(filename: string, source: string) {
 						currentScope.variables.set(
 							node.name.text,
 							// Remove the surrounding quotes
-							arg
-								.getText()
-								.slice(1, -1),
+							arg.getText().slice(1, -1),
 						);
 					}
 				}
